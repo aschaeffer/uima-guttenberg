@@ -77,6 +77,28 @@
 			<artifactId>uimafit-spring</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-gpl</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.io.xmi-asl</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.dictionaryannotator-asl</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.ngrams-asl</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

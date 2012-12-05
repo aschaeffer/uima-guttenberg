@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<typeSystemDescription xmlns="http://uima.apache.org/resourceSpecifier">
+  <name>TypeSystem</name>
+  <description/>
+  <version>1.0</version>
+  <vendor/>
+  <imports>
+    <import name="desc.type.Chunks"/>
+    <import name="desc.type.Constituent"/>
+    <import name="desc.type.Dependency"/>
+    <import name="desc.type.PennTree"/>
+    <import name="desc.type.Tag"/>
+    <import name="desc.type.LexicalUnits"/>
+    <import name="desc.type.NamedEntity"/>
+    <import name="desc.type.DocumentMetaData"/>
+    <import name="desc.type.coref"/>
+    <!-- import name="desc.type.PersonGroup"/>
+    <import name="desc.type.DocumentMetaData"/>
+    <import name="desc.type.Integer"/>
+    <import name="desc.type.Float"/>
+    <import name="desc.type.Email"/>
+    <import name="desc.type.URL"/>
+    <import name="desc.type.Date"/>
+    <import name="desc.type.Time"/>
+    <import name="desc.type.DateTime"/>
+    <import name="desc.type.DayOfWeek"/>
+    <import name="desc.type.Cite"/>
+    <import name="desc.type.Law"/>
+    <import name="desc.type.ClassificationScore"/>
+    <import name="desc.type.Ue5Autor"/>
+    <import name="desc.type.Ue5Dossier"/>
+    <import name="desc.type.Ue5Link"/>
+    <import name="desc.type.Ue5Organisation"/>
+    <import name="desc.type.Ue5Ort"/>
+    <import name="desc.type.Ue5Region"/>
+    <import name="desc.type.Ue5Tag"/>
+    <import name="desc.type.Ue5Thema"/ -->
+  </imports>
+</typeSystemDescription>
