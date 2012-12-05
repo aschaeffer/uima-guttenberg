@@ -19,7 +19,7 @@
 	<!-- context:property-placeholder location="classpath:context/ue5-mining-prototype-test-context.properties" / -->
 
     <!-- Automatically scanning for mining services" -->
-    <!-- context:component-scan base-package="de.uebergebuehr.ue5.services.mining" / -->
+    <context:component-scan base-package="de.hda.gutti.services" />
 
 	<!-- uimafit factories -->
 	<bean id="analysisEngineFactory" class="org.uimafit.spring.factory.AnalysisEngineFactory_impl" />
