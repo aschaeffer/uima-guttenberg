@@ -27,5 +27,5 @@
 	<bean id="casInitializerFactory" class="org.uimafit.spring.factory.CasInitializerFactory_impl" />
 	<bean id="collectionReaderFactory" class="org.uimafit.spring.factory.CollectionReaderFactory_impl" />
 	<bean id="customResourceFactory" class="org.uimafit.spring.factory.CustomResourceFactory_impl" />
-s    
+
 </beans>
