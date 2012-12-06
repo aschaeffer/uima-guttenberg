@@ -49,6 +49,8 @@ public class CommaSectionCounter extends JCasAnnotator_ImplBase {
 	@Override
 	public final void process(final JCas jCas) throws AnalysisEngineProcessException {
 		String text = jCas.getDocumentText();
+		logger.debug(text);
+
 //		ListIterator<PatternConfig> iterator = patternManager.getPatternsForGroup(patternGroup).listIterator(0);
 //		Integer patternCount = 0;
 //		while (iterator.hasNext() && patternCount < maxPatternCount) {
