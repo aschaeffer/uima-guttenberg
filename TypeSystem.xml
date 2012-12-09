@@ -1253,5 +1253,17 @@ Thus CAS multipliers should set this field to true for the last CAS they produce
                 </featureDescription>
             </features>
         </typeDescription>
+        <typeDescription>
+          <name>de.hda.gutti.model.CommasPerParagraphCounter</name>
+          <description>Commas Per Paragraph Counter</description>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
+          <features>
+            <featureDescription>
+              <name>count</name>
+              <description>Commas Per Paragraph</description>
+              <rangeTypeName>uima.cas.Integer</rangeTypeName>
+            </featureDescription>
+          </features>
+        </typeDescription>
     </types>
 </typeSystemDescription>
