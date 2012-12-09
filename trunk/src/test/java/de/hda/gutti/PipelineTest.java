@@ -17,12 +17,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.uimafit.component.xwriter.XWriter;
 import org.xml.sax.SAXException;
 
-import de.hda.gutti.analysis.CommaSectionCounter;
+import de.hda.gutti.analysis.CommaParagraphCounter;
 import de.hda.gutti.domains.AnnotatorConfig;
 import de.hda.gutti.services.PlainTextCollectionReader;
 import de.hda.gutti.util.UuidFileNamer;
 import de.tudarmstadt.ukp.dkpro.core.ngrams.NGramAnnotator;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
+import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordPosTagger;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordSegmenter;
 import de.tudarmstadt.ukp.dkpro.core.tokit.ParagraphSplitter;
 import edu.stanford.nlp.trees.PennTreebankLanguagePack;
@@ -83,10 +85,22 @@ public class PipelineTest implements ApplicationContextAware {
 			pipe.create(StanfordParser.class, stanfordParserAnnotatorConfig);
 			*/
 
+			// Stanford POS Tagger
+			String aLanguage = "de";
+			String aVariant = "fast";
+			AnnotatorConfig stanfordPosTaggerAnnotatorConfig = new AnnotatorConfig();
+			stanfordPosTaggerAnnotatorConfig.put(StanfordPosTagger.PARAM_MODEL_LOCATION, "classpath:/de/tudarmstadt/ukp/dkpro/core/stanfordnlp/lib/postagger-" + aLanguage + "-" + aVariant + ".tagger");
+			pipe.create(StanfordPosTagger.class, stanfordPosTaggerAnnotatorConfig);
+
+			// Stanford Named Entity Recognizer
+			AnnotatorConfig stanfordNamedEntityRecognizerConfig = new AnnotatorConfig();
+			stanfordNamedEntityRecognizerConfig.put(StanfordNamedEntityRecognizer.PARAM_MODEL_LOCATION, "classpath:/de/tudarmstadt/ukp/dkpro/core/stanfordnlp/lib/ner-de-dewac_175m_600.crf.ser.gz");
+			pipe.create(StanfordNamedEntityRecognizer.class, stanfordNamedEntityRecognizerConfig);
+
 			// Comma Section Counter Annotator
 			// AnnotatorConfig commaSectionCounterConfig = new AnnotatorConfig();
 			// pipe.create(CommaSectionCounter.class, commaSectionCounterConfig);
-			pipe.create(CommaSectionCounter.class);
+			pipe.create(CommaParagraphCounter.class);
 
 			// XMI Writer (writes document to a xmi file)
 			AnnotatorConfig xWriterAnnotatorConfig = new AnnotatorConfig();
@@ -96,7 +110,7 @@ public class PipelineTest implements ApplicationContextAware {
 			pipe.create(XWriter.class, xWriterAnnotatorConfig);
 
 			// Output TypeSystemDescription to XML File.
-			pipe.getTypeSystemDescription().toXML(new FileOutputStream("TypeSystem.xml"));
+			// pipe.getTypeSystemDescription().toXML(new FileOutputStream("TypeSystem.xml"));
 
 			// Run pipeline
 			pipe.run(plainTextCollectionReader);

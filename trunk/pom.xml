@@ -12,6 +12,7 @@
 		<slick.version>274</slick.version>
 		<junit.version>4.10</junit.version>
 		<spring.version>3.0.6.RELEASE</spring.version>
+		<uimafit.version>1.4.0</uimafit.version>
 		<dkpro.version>1.4.0</dkpro.version>
 	</properties>
   
@@ -70,13 +71,13 @@
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit</artifactId>
-			<version>1.2.0</version>
+			<version>${uimafit.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.uimafit</groupId>
 			<artifactId>uimafit-spring</artifactId>
-			<version>0.1.0</version>
+			<version>${uimafit.version}</version>
 		</dependency>
 
 		<dependency>
