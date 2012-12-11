@@ -67,6 +67,12 @@
             <version>1.0.7</version>
             <scope>runtime</scope>
         </dependency>
+        
+        <dependency>
+        	<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>1.7.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.uimafit</groupId>
@@ -106,7 +112,44 @@
 			<version>${dkpro.version}</version>
 		</dependency>
 
+		<!-- maybe the models are non-free  -->
 		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-ner-de-dewac_175m_600.crf</artifactId>
+			<version>20110920.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-ner-de-hgc_175m_600.crf</artifactId>
+			<version>20110920.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-de-factored</artifactId>
+			<version>20120709.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-parser-de-pcfg</artifactId>
+			<version>20120709.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-tagger-de-dewac</artifactId>
+			<version>20120709.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-tagger-de-fast</artifactId>
+			<version>20120709.0</version>
+		</dependency>
+		<dependency>
+			<groupId>de.tudarmstadt.ukp.dkpro.core</groupId>
+			<artifactId>de.tudarmstadt.ukp.dkpro.core.stanfordnlp-model-tagger-de-hgc</artifactId>
+			<version>20120709.0</version>
+		</dependency>
+
+		<!-- dependency>
 			<groupId>de.uebergebuehr.ue5</groupId>
 			<artifactId>stanfordnlp-model-lexparser-de-factored</artifactId>
 			<version>1.6.8</version>
@@ -135,7 +178,7 @@
 			<groupId>de.uebergebuehr.ue5</groupId>
 			<artifactId>stanfordnlp-model-postagger-de-fast</artifactId>
 			<version>3.0.3</version>
-		</dependency>
+		</dependency -->
 
 	</dependencies>
 
@@ -165,6 +208,12 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+ 	           <artifactId>maven-surefire-plugin</artifactId>
+    	        <configuration>
+        	        <argLine>-Xmx1536m</argLine>
+            	</configuration>
+        	</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -196,7 +245,7 @@
 		</pluginManagement>
 	</build>
 
-	<!-- repositories>
+	<repositories>
 		<repository>
 			<id>ukp-oss</id>
 			<url>http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/repo/</url>
@@ -211,6 +260,6 @@
 				<checksumPolicy>warn</checksumPolicy>
 			</snapshots>
 		</repository>
-	</repositories -->
+	</repositories>
 
 </project>

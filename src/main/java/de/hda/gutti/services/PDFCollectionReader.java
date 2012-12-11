@@ -1,13 +1,13 @@
 package de.hda.gutti.services;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.util.PDFTextStripper;
 import org.apache.uima.collection.CollectionException;
 import org.apache.uima.jcas.JCas;
 import org.apache.uima.resource.metadata.TypeSystemDescription;
@@ -31,9 +31,9 @@ import org.uimafit.component.JCasCollectionReader_ImplBase;
  *
  */
 @Service
-public class PlainTextCollectionReader extends JCasCollectionReader_ImplBase {
+public class PDFCollectionReader extends JCasCollectionReader_ImplBase {
 
-	private String path = "documents/txt";
+	private String path = "documents/pdf";
 
 	/**
 	 * TypeSystemDescription.
@@ -44,9 +44,9 @@ public class PlainTextCollectionReader extends JCasCollectionReader_ImplBase {
 	
 	private ListIterator<File> iterator = files.listIterator(0);
 
-	private final Logger logger = LoggerFactory.getLogger(PlainTextCollectionReader.class);
+	private final Logger logger = LoggerFactory.getLogger(PDFCollectionReader.class);
 
-	public PlainTextCollectionReader() {
+	public PDFCollectionReader() {
 		prepareDirectory();
 	}
 	
@@ -55,6 +55,7 @@ public class PlainTextCollectionReader extends JCasCollectionReader_ImplBase {
 			Resource fileResource = new ClassPathResource(path);
 			File filePath = fileResource.getFile();
 			File[] f = filePath.listFiles();
+			System.out.println(f.length);
 			if (f.length > 0) {
 				for (File file : f) {
 					files.add(file);
@@ -62,7 +63,7 @@ public class PlainTextCollectionReader extends JCasCollectionReader_ImplBase {
 				iterator = files.listIterator(0);
 			}
 		} catch (IOException e) {
-			logger.error("could not read directory!!!!!", e);
+			logger.error("could not read directory!", e);
 		}
 	}
 	
@@ -72,28 +73,17 @@ public class PlainTextCollectionReader extends JCasCollectionReader_ImplBase {
 	@Override
 	public final void getNext(final JCas jCas) throws IOException, CollectionException {
 		File file = iterator.next();
-		StringBuilder contents = new StringBuilder();
-        BufferedReader reader = null;
+        String text = "";
         try {
-            reader = new BufferedReader(new FileReader(file));
-            String text = null;
-            // repeat until all lines is read
-            while ((text = reader.readLine()) != null) {
-                contents.append(text).append(System.getProperty("line.separator"));
-            }
+            PDDocument pd = PDDocument.load(file);
+            PDFTextStripper stripper = new PDFTextStripper();
+            text = stripper.getText(pd);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException e) {
-            	logger.error(e.getMessage(), e);
-            }
         }
 		jCas.setDocumentLanguage("de");
-		jCas.setDocumentText(contents.toString());
+		jCas.setDocumentText(text);
 		logger.info("read plain text document from " + file.getCanonicalPath());
 	}
 
