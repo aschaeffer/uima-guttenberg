@@ -1,0 +1,4 @@
+  * https://code.google.com/p/dkpro-core-asl/
+  * https://code.google.com/p/dkpro-core-gpl/
+  * https://code.google.com/p/uimafit/
+  * http://sourceforge.net/projects/germandict/?source=dlp
