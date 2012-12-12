@@ -3,7 +3,6 @@ package de.hda.gutti;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
-import org.apache.uima.collection.CollectionReader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.uimafit.component.xwriter.XWriter;
-import org.uimafit.factory.CollectionReaderFactory;
 import org.xml.sax.SAXException;
 
 import de.hda.gutti.analysis.CommaParagraphCounter;
@@ -24,12 +22,10 @@ import de.hda.gutti.analysis.HeadingDetector;
 import de.hda.gutti.analysis.UnknownWordAnnotator;
 import de.hda.gutti.domains.AnnotatorConfig;
 import de.hda.gutti.model.GermanWord;
-import de.hda.gutti.model.UnknownWord;
 import de.hda.gutti.services.PDFCollectionReader;
 import de.hda.gutti.services.PlainTextCollectionReader;
 import de.hda.gutti.util.DateFileNamer;
 import de.tudarmstadt.ukp.dkpro.core.dictionaryannotator.DictionaryAnnotator;
-import de.tudarmstadt.ukp.dkpro.core.io.pdf.PdfReader;
 import de.tudarmstadt.ukp.dkpro.core.ngrams.NGramAnnotator;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
@@ -88,7 +84,7 @@ public class PipelineTest implements ApplicationContextAware {
 			// append the Paragraph Splitter
 			pipe.create(ParagraphSplitter.class);
 
-			// append the Paragraph Splitter
+			// append the Heading Detector
 			pipe.create(HeadingDetector.class);
 
 			// NGramAnnotator (dkpro) for ngrams with up to
@@ -118,7 +114,7 @@ public class PipelineTest implements ApplicationContextAware {
 			AnnotatorConfig stanfordNamedEntityRecognizerConfig = new AnnotatorConfig();
 			stanfordNamedEntityRecognizerConfig.put(StanfordNamedEntityRecognizer.PARAM_VARIANT, "dewac_175m_600.crf"); // dewac_175m_600.cfg or hgc_175m_600.cfg
 			pipe.create(StanfordNamedEntityRecognizer.class, stanfordNamedEntityRecognizerConfig);
-
+			
 			// DictionaryAnnotator: Marks every known german word
 			AnnotatorConfig germanDictionaryAnnotatorConfig = new AnnotatorConfig();
 			germanDictionaryAnnotatorConfig.put(DictionaryAnnotator.PARAM_PHRASE_FILE, "src/test/resources/dictionary/german.dic");
@@ -127,6 +123,11 @@ public class PipelineTest implements ApplicationContextAware {
 			
 			// UnknownWordAnnotator: Marks every unknown word
 			pipe.create(UnknownWordAnnotator.class);
+
+			// counting, counting, counting...
+
+			// Comma Paragraph Counter
+			pipe.create(CommaParagraphCounter.class);
 
 			// XMI Writer (writes document to a xmi file)
 			AnnotatorConfig xWriterAnnotatorConfig = new AnnotatorConfig();
@@ -141,20 +142,13 @@ public class PipelineTest implements ApplicationContextAware {
 			documentWordExporterAnnotatorConfig.put(DocumentWordExporter.PARAM_FILE_NAMER_CLASS_NAME, DateFileNamer.class.getName());
 			pipe.create(DocumentWordExporter.class, documentWordExporterAnnotatorConfig);
 
-			// Output TypeSystemDescription to XML File.
-			// pipe.getTypeSystemDescription().toXML(new FileOutputStream("TypeSystem.xml"));
-
-//			// Create a Collection Reader for PDF Documents
-//			CollectionReader pdfCollectionReader = CollectionReaderFactory.createCollectionReader(
-//				PdfReader.class,
-//                PdfReader.PARAM_PATH, "src/test/resources/documents/pdf",
-//                PdfReader.PARAM_PATTERNS, new String[] { "[+]**/*.pdf"  }
-//			);
-			
 			// Run pipeline
 			pipe.run(plainTextCollectionReader);
-			// pipe.run(pdfCollectionReader);
+			pipe.run(pdfCollectionReader);
 
+			// Output TypeSystemDescription to XML File.
+			// pipe.getTypeSystemDescription().toXML(new FileOutputStream("TypeSystem.xml"));
+			
 		} catch (Exception e) {
 			logger.error("error: ", e);
 		}
