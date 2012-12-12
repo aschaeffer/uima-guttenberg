@@ -1,4 +1,15 @@
   * https://code.google.com/p/dkpro-core-asl/
+  * http://zoidberg.ukp.informatik.tu-darmstadt.de/artifactory/repo/de/tudarmstadt/ukp/dkpro/core/
+  * http://dkpro-core-asl.googlecode.com/svn/de.tudarmstadt.ukp.dkpro.core-asl/tags/latest-release/apidocs/index.html
   * https://code.google.com/p/dkpro-core-gpl/
+  * http://code.google.com/p/dkpro-spelling-asl/
   * https://code.google.com/p/uimafit/
   * http://sourceforge.net/projects/germandict/?source=dlp
+  * http://corpora.informatik.uni-leipzig.de/download.html
+  * http://www.ling.uni-potsdam.de/~kolb/nlp-tools.html
+  * http://dbpedia.org/Wiktionary
+  * http://code.google.com/p/mate-tools/
+  * http://nlp.stanford.edu/software/lex-parser.shtml
+  * http://www.ukp.tu-darmstadt.de/software/jwktl/
+  * http://www.omegawiki.org/Meta:Main_Page
+  * http://code.google.com/p/jowkl/
