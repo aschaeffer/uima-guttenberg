@@ -1265,5 +1265,15 @@ Thus CAS multipliers should set this field to true for the last CAS they produce
             </featureDescription>
           </features>
         </typeDescription>
+        <typeDescription>
+          <name>de.hda.gutti.model.UnknownWord</name>
+          <description>An unknown word</description>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
+        </typeDescription>
+        <typeDescription>
+          <name>de.hda.gutti.model.GermanWord</name>
+          <description>An german word</description>
+          <supertypeName>uima.tcas.Annotation</supertypeName>
+        </typeDescription>
     </types>
 </typeSystemDescription>

@@ -3,6 +3,7 @@ package de.hda.gutti;
 import java.io.IOException;
 
 import org.apache.uima.UIMAException;
+import org.apache.uima.collection.CollectionReader;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,14 +15,21 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.uimafit.component.xwriter.XWriter;
+import org.uimafit.factory.CollectionReaderFactory;
 import org.xml.sax.SAXException;
 
 import de.hda.gutti.analysis.CommaParagraphCounter;
 import de.hda.gutti.analysis.DocumentWordExporter;
+import de.hda.gutti.analysis.HeadingDetector;
+import de.hda.gutti.analysis.UnknownWordAnnotator;
 import de.hda.gutti.domains.AnnotatorConfig;
+import de.hda.gutti.model.GermanWord;
+import de.hda.gutti.model.UnknownWord;
 import de.hda.gutti.services.PDFCollectionReader;
 import de.hda.gutti.services.PlainTextCollectionReader;
 import de.hda.gutti.util.DateFileNamer;
+import de.tudarmstadt.ukp.dkpro.core.dictionaryannotator.DictionaryAnnotator;
+import de.tudarmstadt.ukp.dkpro.core.io.pdf.PdfReader;
 import de.tudarmstadt.ukp.dkpro.core.ngrams.NGramAnnotator;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordNamedEntityRecognizer;
 import de.tudarmstadt.ukp.dkpro.core.stanfordnlp.StanfordParser;
@@ -80,6 +88,9 @@ public class PipelineTest implements ApplicationContextAware {
 			// append the Paragraph Splitter
 			pipe.create(ParagraphSplitter.class);
 
+			// append the Paragraph Splitter
+			pipe.create(HeadingDetector.class);
+
 			// NGramAnnotator (dkpro) for ngrams with up to
 			// 5 words within a sentence
 			AnnotatorConfig nGramAnnotatorConfig = new AnnotatorConfig();
@@ -89,7 +100,11 @@ public class PipelineTest implements ApplicationContextAware {
 			// Stanford Parser (German)
 			AnnotatorConfig stanfordParserAnnotatorConfig = new AnnotatorConfig();
 			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_VARIANT, "pcfg"); // pcfg or factored
+			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_PRINT_TAGSET, true);
+			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_CREATE_CONSTITUENT_TAGS, true);
+			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_CREATE_DEPENDENCY_TAGS, true);
 			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_CREATE_PENN_TREE_STRING, true);
+			stanfordParserAnnotatorConfig.put(StanfordParser.PARAM_CREATE_POS_TAGS, true);
 			pipe.create(StanfordParser.class, stanfordParserAnnotatorConfig);
 
 			// Stanford POS Tagger
@@ -104,8 +119,14 @@ public class PipelineTest implements ApplicationContextAware {
 			stanfordNamedEntityRecognizerConfig.put(StanfordNamedEntityRecognizer.PARAM_VARIANT, "dewac_175m_600.crf"); // dewac_175m_600.cfg or hgc_175m_600.cfg
 			pipe.create(StanfordNamedEntityRecognizer.class, stanfordNamedEntityRecognizerConfig);
 
-			// Comma Paragraph Counter
-			pipe.create(CommaParagraphCounter.class);
+			// DictionaryAnnotator: Marks every known german word
+			AnnotatorConfig germanDictionaryAnnotatorConfig = new AnnotatorConfig();
+			germanDictionaryAnnotatorConfig.put(DictionaryAnnotator.PARAM_PHRASE_FILE, "src/test/resources/dictionary/german.dic");
+			germanDictionaryAnnotatorConfig.put(DictionaryAnnotator.PARAM_ANNOTATION_TYPE, GermanWord.class.getName());
+			pipe.create(DictionaryAnnotator.class, germanDictionaryAnnotatorConfig);
+			
+			// UnknownWordAnnotator: Marks every unknown word
+			pipe.create(UnknownWordAnnotator.class);
 
 			// XMI Writer (writes document to a xmi file)
 			AnnotatorConfig xWriterAnnotatorConfig = new AnnotatorConfig();
@@ -123,6 +144,13 @@ public class PipelineTest implements ApplicationContextAware {
 			// Output TypeSystemDescription to XML File.
 			// pipe.getTypeSystemDescription().toXML(new FileOutputStream("TypeSystem.xml"));
 
+//			// Create a Collection Reader for PDF Documents
+//			CollectionReader pdfCollectionReader = CollectionReaderFactory.createCollectionReader(
+//				PdfReader.class,
+//                PdfReader.PARAM_PATH, "src/test/resources/documents/pdf",
+//                PdfReader.PARAM_PATTERNS, new String[] { "[+]**/*.pdf"  }
+//			);
+			
 			// Run pipeline
 			pipe.run(plainTextCollectionReader);
 			// pipe.run(pdfCollectionReader);
