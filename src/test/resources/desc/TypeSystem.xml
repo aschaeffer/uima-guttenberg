@@ -15,5 +15,7 @@
     <import name="desc.type.DocumentMetaData"/>
     <import name="desc.type.coref"/>
     <import name="desc.type.CommasPerParagraphCounter"/>
+    <import name="desc.type.GermanWord"/>
+    <import name="desc.type.UnknownWord"/>
   </imports>
 </typeSystemDescription>

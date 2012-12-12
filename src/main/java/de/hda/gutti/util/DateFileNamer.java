@@ -12,7 +12,7 @@ import org.uimafit.factory.initializable.Initializable;
 
 public class DateFileNamer implements XWriterFileNamer, Initializable {
 
-	private final SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss");
+	private final SimpleDateFormat formater = new SimpleDateFormat("yyyy-MM-dd_hh-mm-ss-S");
 
 	/**
 	 * {@inheritDoc}

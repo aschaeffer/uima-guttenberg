@@ -6,10 +6,7 @@ import java.util.ArrayList;
 
 import org.apache.uima.UimaContext;
 import org.apache.uima.analysis_engine.AnalysisEngineProcessException;
-import org.apache.uima.cas.Type;
-import org.apache.uima.cas.text.AnnotationFS;
 import org.apache.uima.jcas.JCas;
-import org.apache.uima.jcas.tcas.Annotation;
 import org.apache.uima.resource.ResourceInitializationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,9 +45,6 @@ public class CommaParagraphCounter extends JCasAnnotator_ImplBase {
 	@Override
 	public final void initialize(final UimaContext aContext) throws ResourceInitializationException {
 		super.initialize(aContext);
-		/**
-		 * TODO:
-		 */
 	}
 
 	/**
@@ -61,9 +55,6 @@ public class CommaParagraphCounter extends JCasAnnotator_ImplBase {
 	 */
 	@Override
 	public final void process(final JCas jCas) throws AnalysisEngineProcessException {
-		// String text = jCas.getDocumentText();
-		// logger.debug(text);
-		// Type type = jCas.getTypeSystem().getType(CommasPerParagraphCounter.class.getName());
 		Integer p = 0;
 		for (Paragraph paragraph : select(jCas, Paragraph.class)) {
 			p++;
@@ -80,9 +71,7 @@ public class CommaParagraphCounter extends JCasAnnotator_ImplBase {
 			commasPerParagraphCounter.setBegin(paragraph.getBegin());
 			commasPerParagraphCounter.setEnd(paragraph.getEnd());
 			jCas.addFsToIndexes(commasPerParagraphCounter);
-			logger.info("Paragraph " + p + ": " + commaCounter + " commas found");
-			// AnnotationFS commaCounterAnnotation = jCas.getCas().createAnnotation(type, paragraph.getBegin(), paragraph.getEnd());
-			// jCas.getCas().addFsToIndexes(commaCounterAnnotation);
+			logger.debug("Paragraph " + p + ": " + commaCounter + " commas found");
 		}
 	}
 
