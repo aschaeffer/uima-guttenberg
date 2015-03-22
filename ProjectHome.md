@@ -1,0 +1,1 @@
+We are using UIMA for plagiarism checking of bachelor and master thesises.
